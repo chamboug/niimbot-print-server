@@ -28,7 +28,13 @@ app.post("/print", async (ctx) => {
   }
 });
 
-serve({
-  fetch: app.fetch,
-  port: 3000,
-});
+serve(
+  {
+    fetch: app.fetch,
+    port: parseInt(process.env.PORT || "3000"),
+    hostname: process.env.HOSTNAME,
+  },
+  (info) => {
+    console.log(`Server running on port ${info.port}`);
+  }
+);
