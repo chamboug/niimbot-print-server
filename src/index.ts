@@ -8,6 +8,12 @@ import { print } from "./printer";
 
 const app = new Hono();
 
+app.get("/ping", (ctx) => {
+  return ctx.json({
+    success: true,
+  });
+});
+
 app.post("/print", async (ctx) => {
   const body = await ctx.req.json();
   try {
