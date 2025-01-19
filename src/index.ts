@@ -28,6 +28,22 @@ app.post("/print", async (ctx) => {
   }
 });
 
+app.post("/preview", async (ctx) => {
+  const body = await ctx.req.json();
+  try {
+    const template = parseTemplate(body);
+    const imageBuffer = generateImage(template);
+    return new Response(imageBuffer, {
+      headers: {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=31536000",
+      },
+    });
+  } catch (err) {
+    return ctx.json({ success: false, err }, 400);
+  }
+});
+
 serve(
   {
     fetch: app.fetch,
